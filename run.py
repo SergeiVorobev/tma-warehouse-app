@@ -4,7 +4,7 @@ import sqlite3
 app = Flask(__name__)
 
 # Create a SQLite database connection
-conn = sqlite3.connect("tma_warehouse.db")
+conn = sqlite3.connect("db/tma_warehouse.db")
 cursor = conn.cursor()
 
 # Create Items table if it doesn't exist
