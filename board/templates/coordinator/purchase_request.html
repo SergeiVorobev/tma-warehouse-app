@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Requests</title>
+</head>
+<body>
+    <h1>Purchase Requests</h1>
+    
+    <!-- Add sorting functionality to table headers -->
+    <table>
+        <thead>
+            <tr>
+                <th><a href="?sort=request_id">Request ID</a></th>
+                <th><a href="?sort=employee_name">Employee Name</a></th>
+                <th><a href="?sort=item_id">Item ID</a></th>
+                <th><a href="?sort=unit_of_measurement">Unit of Measurement</a></th>
+                <th><a href="?sort=quantity">Quantity</a></th>
+                <th><a href="?sort=price_without_vat">Price Without VAT</a></th>
+                <th><a href="?sort=comment">Comment</a></th>
+                <th>Status</th>
+                <th>Actions</th>  <!-- Add column for actions -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in requests %}
+                <tr>
+                    <td>{{ request.RequestID }}</td>
+                    <td>{{ request.EmployeeName }}</td>
+                    <td>{{ request.ItemID }}</td>
+                    <td>{{ request.UnitOfMeasurement }}</td>
+                    <td>{{ request.Quantity }}</td>
+                    <td>{{ request.PriceWithoutVAT }}</td>
+                    <td>{{ request.Comment }}</td>
+                    <td>{{ request.Status }}</td>
+                    <td>
+                        <!-- Add buttons or links for actions (e.g., view request) -->
+                        <a href="{{ url_for('coordinator.purchase_request', request_id=request.RequestID) }}">View</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Implement filters for table rows -->
+    <!-- Enable search functionality by request number -->
+    <form>
+        <label for="search">Search by Request Number:</label>
+        <input type="text" id="search" name="search">
+        <button type="submit">Search</button>
+    </form>
+</body>
+</html>
