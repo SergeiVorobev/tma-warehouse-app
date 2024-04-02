@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Add a New Item {% endblock %}</h1>
+    <form method="post">
+        <label for="item_group">Item Group</label>
+        <br>
+        <input type="text" name="item_group"
+               placeholder="Item group"
+               value="{{ request.form['item_group'] }}"></input>
+        <br>
+
+        <label for="unit_of_measurement">Unit of Measurement</label>
+        <br>
+        <input type="text" name="unit_of_measurement"
+               placeholder="Unit of measurement"
+               value="{{ request.form['unit_of_measurement'] }}"></input>
+        <br>
+
+        <label for="quantity">Quantity</label>
+        <br>
+        <input type="number" name="quantity"
+               placeholder="Quantity"
+               value="{{ request.form['quantity'] }}"></input>
+        <br>
+
+        <label for="price_without_vat">Price Without VAT</label>
+        <br>
+        <input type="text" name="price_without_vat"
+               placeholder="Price without VAT"
+               value="{{ request.form['price_without_vat'] }}"></input>
+        <br>
+
+        <label for="status">Status</label>
+        <br>
+        <input type="text" name="status"
+               placeholder="Status"
+               value="{{ request.form['status'] }}"></input>
+        <br>
+
+        <label for="storage_location">Storage Location</label>
+        <br>
+        <input type="text" name="storage_location"
+               placeholder="Storage location"
+               value="{{ request.form['storage_location'] }}"></input>
+        <br>
+
+        <label for="contact_person">Contact Person</label>
+        <br>
+        <input type="text" name="contact_person"
+               placeholder="Contact person"
+               value="{{ request.form['contact_person'] }}"></input>
+        <br>
+
+        <label for="photo_file_path">Photo File Path</label>
+        <br>
+        <input type="text" name="photo_file_path"
+               placeholder="Photo file path"
+               value="{{ request.form['photo_file_path'] }}"></input>
+        <br>
+
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}
