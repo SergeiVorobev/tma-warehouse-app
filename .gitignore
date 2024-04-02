@@ -1,3 +1,4 @@
 .vscode/
 .tma_server.session.sql
 venv/
+config.py

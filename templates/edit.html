@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Edit "{{ item['ItemGroup'] }}" {% endblock %}</h1>
+    <form method="post">
+        <label for="ItemGroup">Item Group</label>
+        <br>
+        <input type="text" name="item_group"
+               placeholder="Item group"
+               value="{{ request.form['item_group'] or item['ItemGroup'] }}"></input>
+        <br>
+
+        <label for="UnitOfMeasurement">Unit of Measurement</label>
+        <br>
+        <input type="text" name="unit_of_measurement"
+               placeholder="Unit of measurement"
+               value="{{ request.form['unit_of_measurement'] or item['UnitOfMeasurement'] }}"></input>
+        <br>
+
+        <label for="Quantity">Quantity</label>
+        <br>
+        <input type="number" name="quantity"
+               placeholder="Quantity"
+               value="{{ request.form['quantity'] or item['Quantity'] }}"></input>
+        <br>
+
+        <label for="price_without_vat">Price Without VAT</label>
+        <br>
+        <input type="text" name="price_without_vat"
+               placeholder="PriceWithoutVat"
+               value="{{ request.form['price_without_vat'] or item['PriceWithoutVAT'] }}"></input>
+        <br>
+
+        <label for="Status">Status</label>
+        <br>
+        <input type="text" name="status"
+               placeholder="Status"
+               value="{{ request.form['status'] or item['Status'] }}"></input>
+        <br>
+
+        <label for="StorageLocation">Storage Location</label>
+        <br>
+        <input type="text" name="storage_location"
+               placeholder="StorageLocation"
+               value="{{ request.form['storage_location'] or item['StorageLocation'] }}"></input>
+        <br>
+
+        <label for="ContactPerson">Contact Person</label>
+        <br>
+        <input type="text" name="contact_person"
+               placeholder="ContactPerson"
+               value="{{ request.form['contact_person'] or item['ContactPerson'] }}"></input>
+        <br>
+
+        <label for="PhotoFilePath">Photo File Path</label>
+        <br>
+        <input type="text" name="photo_file_path"
+               placeholder="Photo file path"
+               value="{{ request.form['photo_file_path'] or item['PhotoFilePath'] }}"></input>
+        <br>
+
+        <button type="submit">Submit</button>
+        <hr>
+        <form action="{{ url_for('delete', id=item['ItemID']) }}" method="POST">
+        <input type="submit" value="Delete Good"
+                onclick="return confirm('Are you sure you want to delete this good?')">
+       </form>
+    </form>
+{% endblock %}
