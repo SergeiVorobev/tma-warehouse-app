@@ -1,8 +1,11 @@
 from flask import Flask
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../db/tma_warehouse.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+from run import app
+from app.routes import employee_bp
 
-from app.routes import coordinator_routes, employee_routes
 
+def create_app():
+    app = Flask(__name__)
+
+    app.register_blueprint(employee_bp, url_prefix='/employee')
+    return app
