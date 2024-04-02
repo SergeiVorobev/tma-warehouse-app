@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block ItemGroup %} Items {% endblock %}</h1>
+    <table>
+        <tr>
+            <th>Item ID</th>
+            <th>Item Group</th>
+            <th>Unit of Measurement</th>
+            <th>Quantity</th>
+            <th>Price Without VAT</th>
+            <th>Status</th>
+            <th>Storage Location</th>
+            <th>Contact Person</th>
+            <th>Photo File Path</th>
+            <th>EDIT</th>
+        </tr>
+        {% for item in goods %}
+        <tr>
+            <td>{{ item['ItemID'] }}</td>
+            <td>{{ item['ItemGroup'] }}</td>
+            <td>{{ item['UnitOfMeasurement'] }}</td>
+            <td>{{ item['Quantity'] }}</td>
+            <td>{{ item['PriceWithoutVAT'] }}</td>
+            <td>{{ item['Status'] }}</td>
+            <td>{{ item['StorageLocation'] }}</td>
+            <td>{{ item['ContactPerson'] }}</td>
+            <td>{{ item['PhotoFilePath'] }}</td>
+            <td>
+                <a href="{{ url_for('edit_item', id=item['ItemID']) }}">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
