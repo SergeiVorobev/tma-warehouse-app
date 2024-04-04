@@ -37,7 +37,15 @@
             <div class="alert">{{ message }}</div>
         {% endfor %}
 
-        {% block content %} {% endblock %}
+        <!-- <div class="goods">
+            {% block goods_content %}{% endblock %}
+        </div>
+
+        <div class="requested_goods">
+            {% block requested_goods_content %}{% endblock %}
+        </div> -->
+        {% block content %}{% endblock %}
+
     </div>
 </body>
 </html>

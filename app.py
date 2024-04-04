@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, flash, redirect, abort
+from flask import Flask, render_template, request, url_for, flash, redirect, abort, session
 import sqlite3
 
 from config import Config
@@ -111,3 +111,63 @@ def delete(id):
     conn.close()
     flash('"{}" was successfully deleted!'.format(item['ItemGroup']))
     return redirect(url_for('index'))
+
+
+# Route for handling purchase requests
+@app.route('/purchase_requests')
+def purchase_requests():
+    conn = get_db_connection()
+    requests = conn.execute('SELECT * FROM TMARequests').fetchall()
+    conn.close()
+    return render_template('purchase_requests.html', requests=requests)
+
+# Route for handling order form
+@app.route('/order_item/<int:item_id>', methods=['GET', 'POST'])
+def order_item(item_id):
+    if request.method == 'POST':
+        # Retrieve form data
+        quantity = request.form['quantity']
+        comment = request.form['comment']
+        
+        # Get item details from the database based on item_id
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM Items WHERE ItemID = ?", (item_id,))
+        item = cursor.fetchone()
+        conn.close()
+        # employee_name = session['employee_name']
+        employee_name = 'Sergei'
+        if not item:
+            flash('Item not found.', 'error')
+            return redirect(url_for('index'))
+        
+        # Insert data into TMARequests table
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO TMARequests (EmployeeName, ItemID, UnitOfMeasurement, Quantity, PriceWithoutVAT, Comment)
+            VALUES (?, ?, ?, ?, ?, ?)
+        """, (employee_name, item_id, item['UnitOfMeasurement'], quantity, item['PriceWithoutVAT'], comment))
+        request_id = cursor.lastrowid  # Retrieve the auto-generated RequestID
+        conn.commit()
+        
+        # Close database connection
+        conn.close()
+
+        # Flash message to indicate successful request creation
+        flash('Request created', 'success')
+        return redirect(url_for('index'))
+
+    # Get item details from the database based on item_id
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM Items WHERE ItemID = ?", (item_id,))
+    item = cursor.fetchone()
+    conn.close()
+
+    if not item:
+        flash('Item not found.', 'error')
+        return redirect(url_for('index'))
+
+    # Render order form template with item details
+    return render_template('order_item.html', item=item)
