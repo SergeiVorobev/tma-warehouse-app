@@ -29,6 +29,18 @@
             <td>
                 <a href="{{ url_for('edit_item', id=item['ItemID']) }}">Edit</a>
             </td>
+            <td>
+                <form action="{{ url_for('order_item', item_id=item['ItemID']) }}" method="post">
+                    <input type="hidden" name="item_id" value="{{ item['ItemID'] }}">
+                    <input type="hidden" name="unit_of_measurement" value="{{ item['UnitOfMeasurement'] }}">
+                    <input type="hidden" name="price_without_vat" value="{{ item['PriceWithoutVAT'] }}">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" name="quantity" value="{{ item['Quantity'] }}" required>
+                    <label for="comment">Comment</label>
+                    <input type="text" name="comment">
+                    <button type="submit">Order</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
     </table>

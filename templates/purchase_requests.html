@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Purchase Requests{% endblock %}
+
+{% block content %}
+    <h1>Purchase Requests</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Request ID</th>
+                <th>Employee Name</th>
+                <th>Item ID</th>
+                <th>Unit of Measurement</th>
+                <th>Quantity</th>
+                <th>Price Without VAT</th>
+                <th>Comment</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in requests %}
+            <tr>
+                <td>{{ request.RequestID }}</td>
+                <td>{{ request.EmployeeName }}</td>
+                <td>{{ request.ItemID }}</td>
+                <td>{{ request.UnitOfMeasurement }}</td>
+                <td>{{ request.Quantity }}</td>
+                <td>{{ request.PriceWithoutVAT }}</td>
+                <td>{{ request.Comment }}</td>
+                <td>{{ request.Status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
