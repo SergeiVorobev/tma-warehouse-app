@@ -1,6 +1,3 @@
-Certainly! Below is the content for a README.txt file for the Trade and Material Assets (TMA) Warehouse app project:
-
-```
 Trade and Material Assets (TMA) Warehouse App
 =============================================
 
@@ -24,37 +21,45 @@ Setup
 To set up the TMA Warehouse app locally, follow these steps:
 
 1. Clone the repository:
-   ```
-   git clone <repository_url>
-   ```
+git clone <repository_url>
 
-2. Install dependencies:
-   ```
-   npm install
-   ```
 
-3. Configure database connection:
-   - Update the database connection parameters in the `.env` file.
+2. Set up a virtual environment (optional but recommended):
+python -m venv venv
 
-4. Initialize the database schema:
-   - Run the SQL scripts provided in the `database` directory to create the necessary tables and relationships.
 
-5. Start the application:
-   ```
-   npm start
-   ```
+3. Activate the virtual environment:
+- On Windows:
+  ```
+  venv\Scripts\activate
+  ```
+- On macOS and Linux:
+  ```
+  source venv/bin/activate
+  ```
 
-6. Access the application in your web browser:
-   ```
-   http://localhost:3000
-   ```
+4. Install dependencies:
+pip install -r requirements.txt
 
-Dependencies
-------------
-- Node.js
-- Express.js
-- Database (MySQL, PostgreSQL, etc.)
-- Frontend Framework (React, Angular, Vue.js, etc.)
+
+5. Configure database connection:
+- Update the database connection parameters in the `.env` file.
+
+6. Initialize the database schema:
+- Run the initialization script to create the necessary tables and relationships:
+  ```
+  python init_db.py
+  ```
+
+7. Start the application:
+python run.py
+
+
+8. Access the application in your web browser:
+http://localhost:5000
+
+
+This setup guide assumes you have Python installed on your system. The project relies on Flask, a Python web framework, and uses Jinja2 templating for HTML rendering. The database schema is set up using SQLite by default, but you can configure other databases like MySQL or PostgreSQL by updating the `.env` file.
 
 Contributing
 ------------
@@ -63,6 +68,3 @@ Contributions to the TMA Warehouse app are welcome! Please follow the guidelines
 License
 -------
 This project is licensed under the [MIT License](LICENSE).
-```
-
-This README.txt file provides an overview of the project, setup instructions, dependencies, and information about contributing and licensing. Adjustments can be made as needed based on the specifics of your project.
