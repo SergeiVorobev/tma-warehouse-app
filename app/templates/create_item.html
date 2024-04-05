@@ -1,39 +1,43 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Add a New Item {% endblock %}</h1>
-    <form method="post">
+    <h1 style="text-align: center;">{% block title %} Add a New Item {% endblock %}</h1>
+    <form method="post" style="margin: 0 auto; width: 50%;">
         <label for="item_group">Item Group</label>
         <br>
         <input type="text" name="item_group"
                placeholder="Item group"
-               value="{{ request.form['item_group'] }}"></input>
+               value="{{ request.form['item_group'] }}"
+               style="width: 100%; padding: 8px; margin-bottom: 10px;">
         <br>
 
         <label for="unit_of_measurement">Unit of Measurement</label>
         <br>
         <input type="text" name="unit_of_measurement"
                placeholder="Unit of measurement"
-               value="{{ request.form['unit_of_measurement'] }}"></input>
+               value="{{ request.form['unit_of_measurement'] }}"
+               style="width: 100%; padding: 8px; margin-bottom: 10px;">
         <br>
 
         <label for="quantity">Quantity</label>
         <br>
         <input type="number" name="quantity"
                placeholder="Quantity"
-               value="{{ request.form['quantity'] }}"></input>
+               value="{{ request.form['quantity'] }}"
+               style="width: 100%; padding: 8px; margin-bottom: 10px;">
         <br>
 
         <label for="price_without_vat">Price Without VAT</label>
         <br>
         <input type="text" name="price_without_vat"
                placeholder="Price without VAT"
-               value="{{ request.form['price_without_vat'] }}"></input>
+               value="{{ request.form['price_without_vat'] }}"
+               style="width: 100%; padding: 8px; margin-bottom: 10px;">
         <br>
 
         <label for="status">Status</label>
         <br>
-        <select name="status">
+        <select name="status" style="width: 100%; padding: 8px; margin-bottom: 10px;">
             <option value="New">New</option>
             <option value="Approve">Approve</option>
             <option value="Reject">Reject</option>
@@ -44,24 +48,26 @@
         <br>
         <input type="text" name="storage_location"
                placeholder="Storage location"
-               value="{{ request.form['storage_location'] }}"></input>
+               value="{{ request.form['storage_location'] }}"
+               style="width: 100%; padding: 8px; margin-bottom: 10px;">
         <br>
 
         <label for="contact_person">Contact Person</label>
         <br>
         <input type="text" name="contact_person"
                placeholder="Contact person"
-               value="{{ request.form['contact_person'] }}"></input>
+               value="{{ request.form['contact_person'] }}"
+               style="width: 100%; padding: 8px; margin-bottom: 10px;">
         <br>
 
         <label for="photo_file_path">Photo File Path</label>
         <br>
         <input type="text" name="photo_file_path"
                placeholder="Photo file path"
-               value="{{ request.form['photo_file_path'] }}"></input>
+               value="{{ request.form['photo_file_path'] }}"
+               style="width: 100%; padding: 8px; margin-bottom: 10px;">
         <br>
 
-        <button type="submit">Submit</button>
+        <button type="submit" style="width: 100%; padding: 8px;">Submit</button>
     </form>
 {% endblock %}
-
