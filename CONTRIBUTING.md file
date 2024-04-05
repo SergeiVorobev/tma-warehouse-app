@@ -1,0 +1,61 @@
+# Contributing to TMA Warehouse App
+
+Thank you for considering contributing to the TMA Warehouse App! By participating in this project, you are helping to improve and enhance the functionality of the application.
+
+## How to Contribute
+
+To contribute to the TMA Warehouse App, follow these steps:
+
+1. Fork the repository from [GitHub](https://github.com/SergeiVorobev/tma-warehouse-app) to your GitHub account.
+
+2. Clone the forked repository to your local machine:
+git clone https://github.com/your-username/tma-warehouse-app.git
+
+sql
+Copy code
+
+3. Create a new branch for your contribution:
+git checkout -b feature/your-feature-name
+
+vbnet
+Copy code
+
+4. Make your desired changes to the codebase.
+
+5. Test your changes locally to ensure they work as expected.
+
+6. Commit your changes with clear and descriptive commit messages:
+git commit -m "Add feature X"
+
+css
+Copy code
+
+7. Push your changes to your forked repository:
+git push origin feature/your-feature-name
+
+yaml
+Copy code
+
+8. Open a pull request (PR) against the `main` branch of the original repository.
+
+9. Provide a descriptive title and detailed description for your PR, explaining the changes made and the rationale behind them.
+
+10. Wait for feedback and be prepared to address any requested changes.
+
+11. Once your PR is approved, it will be merged into the main codebase.
+
+## Code Style
+
+Please follow the existing code style and conventions used in the project. Consistent coding styles make the codebase easier to read and maintain.
+
+## Reporting Issues
+
+If you encounter any bugs, issues, or have suggestions for improvements, please open an issue on the GitHub repository.
+
+## License
+
+By contributing to the TMA Warehouse App, you agree that your contributions will be licensed under the [MIT License](https://opensource.org/licenses/MIT). 
+
+---
+
+Thank you for your contributions!
