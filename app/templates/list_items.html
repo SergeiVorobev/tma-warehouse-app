@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block ItemGroup %} Items {% endblock %}</h1>
+    
+    <!-- Filter and Search functionalities -->
+    <div>
+        <!-- (*) Implement filtering functionality -->
+        <label for="filter-select">Filter by Status:</label>
+        <select id="filter-select">
+            <option value="">All</option>
+            <option value="New">New</option>
+            <option value="Accepted">Accepted</option>
+            <option value="Rejected">Rejected</option>
+        </select>
+    </div>
+
+    <div>
+        <!-- (**) Implement search functionality -->
+        <label for="search-input">Search by Item Group:</label>
+        <input type="text" id="search-input" onkeyup="searchFunction()" placeholder="Search...">
+    </div>
+
+    <table id="items-table">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)">Item ID</th>
+                <th onclick="sortTable(1)">Item Group</th>
+                <th onclick="sortTable(2)">Unit of Measurement</th>
+                <th onclick="sortTable(3)">Quantity</th>
+                <th onclick="sortTable(4)">Price Without VAT</th>
+                <th onclick="sortTable(5)">Status</th>
+                <th onclick="sortTable(6)">Storage Location</th>
+                <th onclick="sortTable(7)">Contact Person</th>
+                <th onclick="sortTable(8)">Photo File Path</th>
+                <th>EDIT</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in goods %}
+                <tr>
+                    <td>{{ item['ItemID'] }}</td>
+                    <td>{{ item['ItemGroup'] }}</td>
+                    <td>{{ item['UnitOfMeasurement'] }}</td>
+                    <td>{{ item['Quantity'] }}</td>
+                    <td>{{ item['PriceWithoutVAT'] }}</td>
+                    <td>{{ item['Status'] }}</td>
+                    <td>{{ item['StorageLocation'] }}</td>
+                    <td>{{ item['ContactPerson'] }}</td>
+                    <td>{{ item['PhotoFilePath'] }}</td>
+                    <td>
+                        <a href="{{ url_for('routes.items.edit_item', id=item['ItemID']) }}">Edit</a>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('routes.requests.order_item', item_id=item['ItemID']) }}">Order</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('routes.items.create_item') }}">Create an Item</a>
+
+    <script>
+        // Sorting functionality
+        function sortTable(columnIndex) {
+            var table, rows, switching, i, x, y, shouldSwitch;
+            table = document.getElementById("items-table");
+            switching = true;
+
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("td")[columnIndex];
+                    y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                }
+            }
+        }
+
+        // Filtering functionality
+        document.getElementById("filter-select").addEventListener("change", function() {
+            var filterValue = this.value.toLowerCase();
+            var table = document.getElementById("items-table");
+            var rows = table.getElementsByTagName("tr");
+            for (var i = 1; i < rows.length; i++) {
+                var statusCell = rows[i].getElementsByTagName("td")[5];
+                if (statusCell) {
+                    var status = statusCell.textContent || statusCell.innerText;
+                    if (filterValue === '' || status.toLowerCase() === filterValue) {
+                        rows[i].style.display = "";
+                    } else {
+                        rows[i].style.display = "none";
+                    }
+                }
+            }
+        });
+
+        // Search functionality
+        function searchFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("search-input");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("items-table");
+            tr = table.getElementsByTagName("tr");
+            for (i = 1; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+{% endblock %}
