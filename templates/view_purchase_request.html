@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block goods_content %}{% endblock %}
+{% block requested_goods_content %}{% endblock %}
+
+{% block title %}Purchase Request Details{% endblock %}
+
+{% block content %}
+<h1>Purchase Request Details</h1>
+
+<table>
+    <tr>
+        <th>Request ID</th>
+        <th>Employee Name</th>
+        <th>Item ID</th>
+        <th>Unit of Measurement</th>
+        <th>Quantity</th>
+        <th>Price Without VAT</th>
+        <th>Comment</th>
+        <th>Status</th>
+    </tr>
+    <tr>
+        <td>{{ request_info['RequestID'] }}</td>
+        <td>{{ request_info['EmployeeName'] }}</td>
+        <td>{{ request_info['ItemID'] }}</td>
+        <td>{{ request_info['UnitOfMeasurement'] }}</td>
+        <td>{{ request_info['Quantity'] }}</td>
+        <td>{{ request_info['PriceWithoutVAT'] }}</td>
+        <td>{{ request_info['Comment'] }}</td>
+        <td>{{ request_info['Status'] }}</td>
+    </tr>
+</table>
+
+<h2>Items in Request</h2>
+{% if items %}
+<table>
+    <tr>
+        <th>Item ID</th>
+        <th>Unit of Measurement</th>
+        <th>Quantity</th>
+        <th>Price Without VAT</th>
+        <th>Comment</th>
+    </tr>
+    {% for item in items %}
+    <tr>
+        <td>{{ item['ItemID'] }}</td>
+        <td>{{ item['UnitOfMeasurement'] }}</td>
+        <td>{{ item['Quantity'] }}</td>
+        <td>{{ item['PriceWithoutVAT'] }}</td>
+        <td>{{ item['Comment'] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No items in this request.</p>
+{% endif %}
+{% endblock %}

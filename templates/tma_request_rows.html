@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}TMA Request Rows{% endblock %}
+
+{% block content %}
+    <h1>TMA Request Rows</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Request ID</th>
+                <th>Request Row ID</th>
+                <th>Item ID</th>
+                <th>Unit Of Measurement</th>
+                <th>Quantity</th>
+                <th>Price Without VAT</th>
+                <th>Comment</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in tma_request_rows %}
+            <tr>
+                <td>{{ row['RequestID'] }}</td>
+                <td>{{ row['RequestRowID'] }}</td>
+                <td>{{ row['ItemID'] }}</td>
+                <td>{{ row['UnitOfMeasurement'] }}</td>
+                <td>{{ row['Quantity'] }}</td>
+                <td>{{ row['PriceWithoutVAT'] }}</td>
+                <td>{{ row['Comment'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
