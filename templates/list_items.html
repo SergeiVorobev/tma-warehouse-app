@@ -29,7 +29,12 @@
             <td>
                 <a href="{{ url_for('edit_item', id=item['ItemID']) }}">Edit</a>
             </td>
+            <td>
+                <a href="{{ url_for('order_item', item_id=item['ItemID']) }}">Order</a>
+            </td>
         </tr>
         {% endfor %}
     </table>
+    <a href="{{ url_for('create_item') }}">Create</a>
+
 {% endblock %}

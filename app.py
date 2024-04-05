@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, flash, redirect, abort
+from flask import Flask, render_template, request, url_for, flash, redirect, abort, session
 import sqlite3
 
 from config import Config
@@ -14,10 +14,16 @@ def get_db_connection():
 
 @app.route('/')
 def index():
+    return render_template('base.html')
+
+
+@app.route('/items/')
+def list_items():
     conn = get_db_connection()
     goods = conn.execute('SELECT * FROM Items').fetchall()
     conn.close()
-    return render_template('index.html', goods=goods)
+    return render_template('list_items.html', goods=goods)
+
 
 def get_item(good_id):
     conn = get_db_connection()
@@ -29,8 +35,8 @@ def get_item(good_id):
     return good
 
 
-@app.route('/create/', methods=('GET', 'POST'))
-def create():
+@app.route('/items/create/', methods=('GET', 'POST'))
+def create_item():
     if request.method == 'POST':
         item_group = request.form['item_group']
         unit_of_measurement = request.form['unit_of_measurement']
@@ -60,12 +66,12 @@ def create():
             cursor.close()
             conn.close()
             flash('Item added successfully', 'success')
-            return redirect(url_for('index'))
+            return redirect(url_for('list_items'))
 
-    return render_template('create.html')
+    return render_template('create_item.html')
 
 
-@app.route('/<int:id>/edit/', methods=('GET', 'POST'))
+@app.route('/items/edit/<int:id>/', methods=('GET', 'POST'))
 def edit_item(id):
     item = get_item(id)
 
@@ -97,17 +103,61 @@ def edit_item(id):
             conn.commit()
             conn.close()
             flash('Item updated successfully', 'success')
-            return redirect(url_for('index'))
+            return redirect(url_for('list_items'))
 
-    return render_template('edit.html', item=item)
+    return render_template('edit_item.html', item=item)
 
 
-@app.route('/<int:id>/delete/', methods=('POST',))
-def delete(id):
+@app.route('/items/delete/<int:id>/', methods=('POST',))
+def delete_item(id):
     item = get_item(id)
     conn = get_db_connection()
     conn.execute('DELETE FROM Items WHERE ItemID = ?', (id,))
     conn.commit()
     conn.close()
     flash('"{}" was successfully deleted!'.format(item['ItemGroup']))
-    return redirect(url_for('index'))
+    return redirect(url_for('list_items'))
+
+
+@app.route('/orders/')
+def list_orders():
+    conn = get_db_connection()
+    requests = conn.execute('SELECT * FROM TMARequests').fetchall()
+    conn.close()
+    return render_template('list_orders.html', requests=requests)
+
+
+@app.route('/orders/create/<int:item_id>', methods=['GET', 'POST'])
+def order_item(item_id):
+    if request.method == 'POST':
+        quantity = request.form['quantity']
+        comment = request.form['comment']
+        
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM Items WHERE ItemID = ?", (item_id,))
+        item = cursor.fetchone()
+        conn.close()
+        # employee_name = session['employee_name']
+        employee_name = 'Sergei'
+        
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO TMARequests (EmployeeName, ItemID, UnitOfMeasurement, Quantity, PriceWithoutVAT, Comment)
+            VALUES (?, ?, ?, ?, ?, ?)
+        """, (employee_name, item_id, item['UnitOfMeasurement'], quantity, item['PriceWithoutVAT'], comment))
+        request_id = cursor.lastrowid
+        conn.commit()
+        conn.close()
+
+        flash('Request created', 'success')
+        return redirect(url_for('list_items'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM Items WHERE ItemID = ?", (item_id,))
+    item = cursor.fetchone()
+    conn.close()
+
+    return render_template('order_item.html', item=item)
