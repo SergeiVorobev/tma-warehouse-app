@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}Purchase Requests{% endblock %}
+
+{% block content %}
+    <h1>Purchase Requests</h1>
+     <!-- Sorting JavaScript function -->
+    <!-- Filter and Search functionalities -->
+<div>
+    <!-- (*) Implement filtering functionality -->
+    <label for="filter-select">Filter by Status:</label>
+    <select id="filter-select">
+        <option value="">All</option>
+        <option value="New">New</option>
+        <option value="Accepted">Accepted</option>
+        <option value="Rejected">Rejected</option>
+    </select>
+</div>
+    <div>
+        <!-- (**) Implement search functionality -->
+        <label for="search-input">Search by Request ID:</label>
+        <input type="text" id="search-input" onkeyup="searchFunction()" placeholder="Search...">
+    </div>
+    <!-- Table with sorting, filtering, and search functionalities -->
+    <table id="purchase-requests-table">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)">Request ID</th>
+                <th onclick="sortTable(1)">Employee Name</th>
+                <th onclick="sortTable(2)">Item ID</th>
+                <th onclick="sortTable(3)">Unit of Measurement</th>
+                <th onclick="sortTable(4)">Quantity</th>
+                <th onclick="sortTable(5)">Price Without VAT</th>
+                <th onclick="sortTable(6)">Comment</th>
+                <th onclick="sortTable(7)">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in requests %}
+            <tr>
+                <td>{{ request['RequestID'] }}</td>
+                <td>{{ request['EmployeeName'] }}</td>
+                <td>{{ request['ItemID'] }}</td>
+                <td>{{ request['UnitOfMeasurement'] }}</td>
+                <td>{{ request['Quantity'] }}</td>
+                <td>{{ request['PriceWithoutVAT'] }}</td>
+                <td>{{ request['Comment'] }}</td>
+                <td>{{ request['Status'] }}</td>
+                <td>
+                    <a href="{{ url_for('routes.requests.view_purchase_request', request_id=request['RequestID']) }}">Open</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+<script>
+    // Filtering functionality
+    document.getElementById("filter-select").addEventListener("change", function() {
+        var filterValue = this.value.toLowerCase();
+        var table = document.getElementById("purchase-requests-table");
+        var rows = table.getElementsByTagName("tr");
+        for (var i = 0; i < rows.length; i++) {
+            var statusCell = rows[i].getElementsByTagName("td")[7];
+            if (statusCell) {
+                var status = statusCell.textContent || statusCell.innerText;
+                if (filterValue === '' || status.toLowerCase() === filterValue) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+    });
+
+    // Search functionality
+    function searchFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("search-input");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("purchase-requests-table");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+
+
+{% endblock %}

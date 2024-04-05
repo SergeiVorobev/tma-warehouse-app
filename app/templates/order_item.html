@@ -22,7 +22,7 @@
         <input type="text" name="storage_location" placeholder="Storage location" value="{{ item['StorageLocation'] }}" readonly><br>
 
         <label for="contact_person">Contact Person</label><br>
-        <input type="text" name="contact_person" placeholder="Contact person" value="{{ contact_person }}"><br>
+        <input type="text" name="contact_person" placeholder="Contact person" value="{{ item['ContactPerson'] }}" readonly><br>
 
         <label for="photo_file_path">Photo File Path</label><br>
         <input type="text" name="photo_file_path" placeholder="Photo file path" value="{{ item['PhotoFilePath'] }}" readonly><br>
@@ -31,6 +31,6 @@
         <input type="text" name="comment" placeholder="Comment"><br>
 
         <button type="submit">Submit Order</button>
-        <a href="{{ url_for('list_items') }}"><button type="button">Cancel</button></a>
+        <a href="{{ url_for('routes.items.list_items') }}"><button type="button">Cancel</button></a>
     </form>
 {% endblock %}

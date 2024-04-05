@@ -27,9 +27,9 @@
 </head>
 <body>
     <nav>
-        <a href="{{ url_for('index') }}">TMA</a>
-        <a href="{{ url_for('list_items') }}">Items</a>
-        <a href="{{ url_for('list_orders') }}">Orders</a>
+        <span>TMA</span>
+        <a href="{{ url_for('routes.items.list_items') }}">Items</a>
+        <a href="{{ url_for('routes.requests.list_orders') }}">Orders</a>
         <a href="#">About</a>
     </nav>
     <hr>
