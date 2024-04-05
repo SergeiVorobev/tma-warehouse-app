@@ -1,36 +1,42 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Order Item {% endblock %}</h1>
-    <form method="post">
-        <label for="item_group">Item Name</label><br>
-        <input type="text" name="item_group" placeholder="Item group" value="{{ item['ItemGroup'] }}" readonly><br>
-
-        <label for="unit_of_measurement">Unit of Measurement</label><br>
-        <input type="text" name="unit_of_measurement" placeholder="Unit of measurement" value="{{ item['UnitOfMeasurement'] }}" readonly><br>
-
-        <label for="quantity">Quantity</label><br>
-        <input type="number" name="quantity" placeholder="Quantity" value="" required><br>
-
-        <label for="price_without_vat">Price Without VAT</label><br>
-        <input type="text" name="price_without_vat" placeholder="Price without VAT" value="{{ item['PriceWithoutVAT'] }}" readonly><br>
-
-        <label for="status">Status</label><br>
-        <input type="text" name="status" placeholder="Status" value="{{ item['Status'] }}" readonly><br>
-
-        <label for="storage_location">Storage Location</label><br>
-        <input type="text" name="storage_location" placeholder="Storage location" value="{{ item['StorageLocation'] }}" readonly><br>
-
-        <label for="contact_person">Contact Person</label><br>
-        <input type="text" name="contact_person" placeholder="Contact person" value="{{ item['ContactPerson'] }}" readonly><br>
-
-        <label for="photo_file_path">Photo File Path</label><br>
-        <input type="text" name="photo_file_path" placeholder="Photo file path" value="{{ item['PhotoFilePath'] }}" readonly><br>
-
-        <label for="comment">Comment</label><br>
-        <input type="text" name="comment" placeholder="Comment"><br>
-
-        <button type="submit">Submit Order</button>
-        <a href="{{ url_for('routes.items.list_items') }}"><button type="button">Cancel</button></a>
-    </form>
+    <div style="display: flex; justify-content: center;">
+        <div style="width: 50%;">
+            <h1 style="text-align: center;">Order Item</h1>
+            <form method="post" style="margin-bottom: 20px;">
+                <label for="item_group" style="display: block; margin-bottom: 5px;">Item Name</label>
+                <input type="text" name="item_group" placeholder="Item group" value="{{ item['ItemGroup'] }}" readonly style="padding: 8px; width: 100%; margin-bottom: 10px;">
+                
+                <label for="unit_of_measurement" style="display: block; margin-bottom: 5px;">Unit of Measurement</label>
+                <input type="text" name="unit_of_measurement" placeholder="Unit of measurement" value="{{ item['UnitOfMeasurement'] }}" readonly style="padding: 8px; width: 100%; margin-bottom: 10px;">
+                
+                <label for="quantity" style="display: block; margin-bottom: 5px;">Quantity</label>
+                <input type="number" name="quantity" placeholder="Quantity" value="" required style="padding: 8px; width: 100%; margin-bottom: 10px;">
+                
+                <label for="price_without_vat" style="display: block; margin-bottom: 5px;">Price Without VAT</label>
+                <input type="text" name="price_without_vat" placeholder="Price without VAT" value="{{ item['PriceWithoutVAT'] }}" readonly style="padding: 8px; width: 100%; margin-bottom: 10px;">
+                
+                <label for="status" style="display: block; margin-bottom: 5px;">Status</label>
+                <input type="text" name="status" placeholder="Status" value="{{ item['Status'] }}" readonly style="padding: 8px; width: 100%; margin-bottom: 10px;">
+                
+                <label for="storage_location" style="display: block; margin-bottom: 5px;">Storage Location</label>
+                <input type="text" name="storage_location" placeholder="Storage location" value="{{ item['StorageLocation'] }}" readonly style="padding: 8px; width: 100%; margin-bottom: 10px;">
+                
+                <label for="contact_person" style="display: block; margin-bottom: 5px;">Contact Person</label>
+                <input type="text" name="contact_person" placeholder="Contact person" value="{{ item['ContactPerson'] }}" readonly style="padding: 8px; width: 100%; margin-bottom: 10px;">
+                
+                <label for="photo_file_path" style="display: block; margin-bottom: 5px;">Photo File Path</label>
+                <input type="text" name="photo_file_path" placeholder="Photo file path" value="{{ item['PhotoFilePath'] }}" readonly style="padding: 8px; width: 100%; margin-bottom: 10px;">
+                
+                <label for="comment" style="display: block; margin-bottom: 5px;">Comment</label>
+                <input type="text" name="comment" placeholder="Comment" style="padding: 8px; width: 100%; margin-bottom: 10px;">
+                
+                <div style="text-align: center;">
+                    <button type="submit" style="padding: 10px 20px; background-color: #d64161; color: white; border: none; cursor: pointer; margin-right: 10px;">Submit Order</button>
+                    <a href="{{ url_for('routes.items.list_items') }}" style="text-decoration: none;"><button type="button" style="padding: 10px 20px; background-color: #ccc; color: #333; border: none; cursor: pointer;">Cancel</button></a>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}
