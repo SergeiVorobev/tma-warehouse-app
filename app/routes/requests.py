@@ -106,7 +106,7 @@ def view_purchase_request(request_id):
 
     conn = get_db_connection()
     request_info = conn.execute('SELECT * FROM TMARequests WHERE RequestID = ?', (request_id,)).fetchone()
-    items = conn.execute('SELECT * FROM TMARequestRows WHERE RequestID = ?', (request_id,)).fetchall()
+    items = conn.execute('SELECT * FROM Items WHERE ItemID = ?', (request_id,)).fetchall()
     conn.close()
 
     if request_info is None:
@@ -116,37 +116,6 @@ def view_purchase_request(request_id):
     return render_template('view_purchase_request.html', request_info=request_info, items=items)
 
 
-@requests_bp.route('/orders/update_quantity/<int:request_id>/', methods=['POST'])
-def update_quantity(request_id):
-    if request.method == 'POST':
-        new_quantity = int(request.form['quantity'])
-
-        # Get the request information
-        request_info = get_request_by_id(request_id)
-        if not request_info:
-            flash('Request not found', 'error')
-            return redirect(url_for('routes.requests.list_orders'))
-
-        # Get the available quantity of the item
-        item_id = request_info['ItemID']
-        available, available_quantity = get_available_quantity(item_id, new_quantity)
-        if not available:
-            flash('Quantity exceeds available stock', 'error')
-            return redirect(url_for('routes.requests.view_purchase_request', request_id=request_id))
-
-        # Update the quantity in the purchase request
-        conn = get_db_connection()
-        conn.execute('UPDATE TMARequests SET Quantity = ? WHERE RequestID = ?', (new_quantity, request_id))
-        conn.commit()
-
-        # Retrieve updated item information from TMARequests
-        updated_item_info = get_request_by_id(request_id)
-        conn.close()
-
-        flash('Quantity updated successfully', 'success')
-
-    return redirect(url_for('routes.requests.view_purchase_request', request_id=request_id))
-
 
 @requests_bp.route('/orders/confirm/<int:request_id>/', methods=['POST'])
 def confirm_purchase_request(request_id):
@@ -155,21 +124,40 @@ def confirm_purchase_request(request_id):
         flash('Purchase request not found', 'error')
         return redirect(url_for('routes.requests.list_orders'))
 
+    # Update the status to "Accepted" in the TMARequests table
+    conn = get_db_connection()
+    conn.execute('UPDATE TMARequests SET Status = ? WHERE RequestID = ?', ('Accepted', request_id))
+    conn.commit()
+
+    # Reduce the quantity in the Items table
+    item_id = request_info['ItemID']
+    quantity_requested = request_info['Quantity']
+
+    conn = get_db_connection()
+    item = conn.execute('SELECT * FROM Items WHERE ItemID = ?', (item_id,)).fetchone()
+    if item is not None:
+        updated_quantity = item['Quantity'] - quantity_requested
+        conn.execute('UPDATE Items SET Quantity = ? WHERE ItemID = ?', (updated_quantity, item_id))
+        conn.commit()
+    conn.close()
+
     # Perform any additional logic here
 
     flash('Purchase request confirmed successfully', 'success')
     return redirect(url_for('routes.requests.list_orders'))
 
+
+
 @requests_bp.route('/orders/reject/<int:request_id>/', methods=['POST'])
 def reject_purchase_request(request_id):
-    # Logic to reject the purchase request
+    # Get reject comment from the form
     comment = request.form.get('comment')
-    request_info = get_request_by_id(request_id)
-    if request_info is None:
-        flash('Purchase request not found', 'error')
-        return redirect(url_for('routes.requests.list_orders'))
-
-    # Perform any additional logic here
+    
+    # Update the status and comment for the purchase request
+    conn = get_db_connection()
+    conn.execute('UPDATE TMARequests SET Status = ?, Comment = ? WHERE RequestID = ?', ('Rejected', comment, request_id))
+    conn.commit()
+    conn.close()
 
     flash('Purchase request rejected with comment: {}'.format(comment), 'success')
     return redirect(url_for('routes.requests.list_orders'))

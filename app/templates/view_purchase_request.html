@@ -21,22 +21,29 @@
         <td>{{ request_info['EmployeeName'] }}</td>
         <td>{{ request_info['ItemID'] }}</td>
         <td>{{ request_info['UnitOfMeasurement'] }}</td>
-        <td>
-            <form method="post" action="{{ url_for('routes.requests.update_quantity', request_id=request_info['RequestID']) }}">
-                <input type="hidden" name="request_id" value="{{ request_info['RequestID'] }}">
-                <input type="number" name="quantity" value="{{ request_info['Quantity'] }}" min="1">
-                <button type="submit">Update Quantity</button>
-            </form>            
-        </td>
+        <td>{{ request_info['Quantity'] }}</td>
         <td>{{ request_info['PriceWithoutVAT'] }}</td>
         <td>{{ request_info['Comment'] }}</td>
         <td>{{ request_info['Status'] }}</td>
     </tr>
 </table>
 
-<h2>Items in Request</h2>
+
+{% if request_info['Status'] != 'Accepted' %}
+<form method="post" action="{{ url_for('routes.requests.confirm_purchase_request', request_id=request_info['RequestID']) }}">
+    <button type="submit">Confirm Request</button>
+</form>
+
+<form method="post" action="{{ url_for('routes.requests.reject_purchase_request', request_id=request_info['RequestID']) }}">
+    <label for="reject-comment">Reject Request with Comment:</label>
+    <input type="text" id="reject-comment" name="comment">
+    <button type="submit">Reject Request</button>
+</form>
+{% endif %}
+
+<h2>Items in Stock</h2>
 {% if items %}
-<table>
+<table id="items-table">
     <tr>
         <th>Item ID</th>
         <th>Unit of Measurement</th>
@@ -55,16 +62,8 @@
     {% endfor %}
 </table>
 
-<form method="post" action="{{ url_for('routes.requests.confirm_purchase_request', request_id=request_info['RequestID']) }}">
-    <button type="submit">Confirm Request</button>
-</form>
-
-<form method="post" action="{{ url_for('routes.requests.reject_purchase_request', request_id=request_info['RequestID']) }}">
-    <label for="reject-comment">Reject Request with Comment:</label>
-    <input type="text" id="reject-comment" name="comment">
-    <button type="submit">Reject Request</button>
-</form>
 {% else %}
-<p>No items in this request.</p>
+<p>No items in this Stock.</p>
 {% endif %}
+
 {% endblock %}
