@@ -1,8 +1,5 @@
 {% extends 'base.html' %}
 
-{% block goods_content %}{% endblock %}
-{% block requested_goods_content %}{% endblock %}
-
 {% block title %}Purchase Request Details{% endblock %}
 
 {% block content %}
@@ -24,7 +21,13 @@
         <td>{{ request_info['EmployeeName'] }}</td>
         <td>{{ request_info['ItemID'] }}</td>
         <td>{{ request_info['UnitOfMeasurement'] }}</td>
-        <td>{{ request_info['Quantity'] }}</td>
+        <td>
+            <form method="post" action="{{ url_for('update_quantity', request_id=request_info['RequestID']) }}">
+                <input type="hidden" name="request_id" value="{{ request_info['RequestID'] }}">
+                <input type="number" name="quantity" value="{{ request_info['Quantity'] }}" min="1">
+                <button type="submit">Update Quantity</button>
+            </form>            
+        </td>
         <td>{{ request_info['PriceWithoutVAT'] }}</td>
         <td>{{ request_info['Comment'] }}</td>
         <td>{{ request_info['Status'] }}</td>
@@ -51,6 +54,16 @@
     </tr>
     {% endfor %}
 </table>
+
+<form method="post" action="{{ url_for('confirm_purchase_request', request_id=request_info['RequestID']) }}">
+    <button type="submit">Confirm Request</button>
+</form>
+
+<form method="post" action="{{ url_for('reject_purchase_request', request_id=request_info['RequestID']) }}">
+    <label for="reject-comment">Reject Request with Comment:</label>
+    <input type="text" id="reject-comment" name="comment">
+    <button type="submit">Reject Request</button>
+</form>
 {% else %}
 <p>No items in this request.</p>
 {% endif %}

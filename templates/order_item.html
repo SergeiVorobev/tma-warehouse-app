@@ -4,34 +4,33 @@
     <h1>{% block title %} Order Item {% endblock %}</h1>
     <form method="post">
         <label for="item_group">Item Group</label><br>
-        <input type="text" name="item_group" placeholder="Item group" value="{{ item_group }}" readonly><br>
+        <input type="text" name="item_group" placeholder="Item group" value="{{ item['ItemGroup'] }}" readonly><br>
 
         <label for="unit_of_measurement">Unit of Measurement</label><br>
-        <input type="text" name="unit_of_measurement" placeholder="Unit of measurement" value="{{ unit_of_measurement }}" readonly><br>
+        <input type="text" name="unit_of_measurement" placeholder="Unit of measurement" value="{{ item['UnitOfMeasurement'] }}" readonly><br>
 
         <label for="quantity">Quantity</label><br>
         <input type="number" name="quantity" placeholder="Quantity" value="" required><br>
 
         <label for="price_without_vat">Price Without VAT</label><br>
-        <input type="text" name="price_without_vat" placeholder="Price without VAT" value="{{ price_without_vat }}" readonly><br>
+        <input type="text" name="price_without_vat" placeholder="Price without VAT" value="{{ item['PriceWithoutVAT'] }}" readonly><br>
 
         <label for="status">Status</label><br>
-        <input type="text" name="status" placeholder="Status" value="{{ status }}" readonly><br>
+        <input type="text" name="status" placeholder="Status" value="{{ item['Status'] }}" readonly><br>
 
         <label for="storage_location">Storage Location</label><br>
-        <input type="text" name="storage_location" placeholder="Storage location" value="{{ storage_location }}" readonly><br>
+        <input type="text" name="storage_location" placeholder="Storage location" value="{{ item['StorageLocation'] }}" readonly><br>
 
         <label for="contact_person">Contact Person</label><br>
-        <input type="text" name="contact_person" placeholder="Contact person" value="{{ contact_person }}" readonly><br>
+        <input type="text" name="contact_person" placeholder="Contact person" value="{{ contact_person }}"><br>
 
         <label for="photo_file_path">Photo File Path</label><br>
-        <input type="text" name="photo_file_path" placeholder="Photo file path" value="{{ photo_file_path }}" readonly><br>
+        <input type="text" name="photo_file_path" placeholder="Photo file path" value="{{ item['PhotoFilePath'] }}" readonly><br>
 
         <label for="comment">Comment</label><br>
         <input type="text" name="comment" placeholder="Comment"><br>
 
         <button type="submit">Submit Order</button>
         <a href="{{ url_for('list_items') }}"><button type="button">Cancel</button></a>
-
     </form>
 {% endblock %}
