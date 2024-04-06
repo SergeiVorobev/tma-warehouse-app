@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block ItemGroup %} Items {% endblock %}</h1>
+    <h1 style="text-align: center;">Items</h1>
     
     <!-- Filter and Search functionalities -->
-    <div>
+    <div style="margin-bottom: 20px;">
         <!-- (*) Implement filtering functionality -->
         <label for="filter-select">Filter by Status:</label>
         <select id="filter-select">
@@ -13,52 +13,48 @@
             <option value="Accepted">Accepted</option>
             <option value="Rejected">Rejected</option>
         </select>
-    </div>
-
-    <div>
+        
         <!-- (**) Implement search functionality -->
-        <label for="search-input">Search by Item Group:</label>
-        <input type="text" id="search-input" onkeyup="searchFunction()" placeholder="Search...">
+        <label for="search-input" style="margin-left: 20px;">Search by Item Group:</label>
+        <input type="text" id="search-input" onkeyup="searchFunction()" placeholder="Search..." style="margin-right: 20px;">
     </div>
 
-    <table id="items-table">
+    <table id="items-table" style="border-collapse: collapse; width: 100%;">
         <thead>
-            <tr>
-                <th onclick="sortTable(0)">Item ID</th>
-                <th onclick="sortTable(1)">Item Group</th>
-                <th onclick="sortTable(2)">Unit of Measurement</th>
-                <th onclick="sortTable(3)">Quantity</th>
-                <th onclick="sortTable(4)">Price Without VAT</th>
-                <th onclick="sortTable(5)">Status</th>
-                <th onclick="sortTable(6)">Storage Location</th>
-                <th onclick="sortTable(7)">Contact Person</th>
-                <th onclick="sortTable(8)">Photo File Path</th>
-                <th>EDIT</th>
+            <tr style="text-align: center;">
+                <th onclick="sortTable(0)" style="border: 1px solid black;">Item ID</th>
+                <th onclick="sortTable(1)" style="border: 1px solid black;">Item Group</th>
+                <th onclick="sortTable(2)" style="border: 1px solid black;">Unit of Measurement</th>
+                <th onclick="sortTable(3)" style="border: 1px solid black;">Quantity</th>
+                <th onclick="sortTable(4)" style="border: 1px solid black;">Price Without VAT</th>
+                <th onclick="sortTable(5)" style="border: 1px solid black;">Status</th>
+                <th onclick="sortTable(6)" style="border: 1px solid black;">Storage Location</th>
+                <th onclick="sortTable(7)" style="border: 1px solid black;">Contact Person</th>
+                <th onclick="sortTable(8)" style="border: 1px solid black;">Photo File Path</th>
+                <th style="border: 1px solid black;">Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for item in goods %}
-                <tr>
-                    <td>{{ item['ItemID'] }}</td>
-                    <td>{{ item['ItemGroup'] }}</td>
-                    <td>{{ item['UnitOfMeasurement'] }}</td>
-                    <td>{{ item['Quantity'] }}</td>
-                    <td>{{ item['PriceWithoutVAT'] }}</td>
-                    <td>{{ item['Status'] }}</td>
-                    <td>{{ item['StorageLocation'] }}</td>
-                    <td>{{ item['ContactPerson'] }}</td>
-                    <td>{{ item['PhotoFilePath'] }}</td>
-                    <td>
+                <tr style="text-align: center;">
+                    <td style="border: 1px solid black;">{{ item['ItemID'] }}</td>
+                    <td style="border: 1px solid black;">{{ item['ItemGroup'] }}</td>
+                    <td style="border: 1px solid black;">{{ item['UnitOfMeasurement'] }}</td>
+                    <td style="border: 1px solid black;">{{ item['Quantity'] }}</td>
+                    <td style="border: 1px solid black;">{{ item['PriceWithoutVAT'] }}</td>
+                    <td style="border: 1px solid black;">{{ item['Status'] }}</td>
+                    <td style="border: 1px solid black;">{{ item['StorageLocation'] }}</td>
+                    <td style="border: 1px solid black;">{{ item['ContactPerson'] }}</td>
+                    <td style="border: 1px solid black;">{{ item['PhotoFilePath'] }}</td>
+                    <td style="border: 1px solid black;">
                         <a href="{{ url_for('routes.items.edit_item', id=item['ItemID']) }}">Edit</a>
-                    </td>
-                    <td>
-                        <a href="{{ url_for('routes.requests.order_item', item_id=item['ItemID']) }}">Order</a>
+                        <a href="{{ url_for('routes.requests.order_item', item_id=item['ItemID']) }}" style="margin-left: 5px;">Order</a>
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a href="{{ url_for('routes.items.create_item') }}">Create an Item</a>
+    <a href="{{ url_for('routes.items.create_item') }}" style="display: block; text-align: center; margin-top: 20px; font-weight: bold; text-transform: uppercase;">CREATE ITEM</a>
 
     <script>
         // Sorting functionality

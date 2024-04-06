@@ -1,71 +1,72 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Edit "{{ item['ItemGroup'] }}" {% endblock %}</h1>
-    <!-- Main Form -->
-    <form method="post">
-        <label for="ItemGroup">Item Group</label>
-        <br>
-        <input type="text" name="item_group"
-               placeholder="Item group"
-               value="{{ request.form['item_group'] or item['ItemGroup'] }}"></input>
-        <br>
+    <div style="display: flex; justify-content: center;">
+        <div style="width: 50%;">
+            <h1 style="text-align: center;">Edit "{{ item['ItemGroup'] }}"</h1>
+            <!-- Main Form -->
+            <form method="post" style="margin-bottom: 20px;">
+                <label for="ItemGroup" style="display: block; margin-bottom: 5px;">Item Group</label>
+                <input type="text" name="item_group"
+                       placeholder="Item group"
+                       value="{{ request.form['item_group'] or item['ItemGroup'] }}"
+                       style="padding: 8px; width: 100%; margin-bottom: 10px;">
+                
+                <label for="UnitOfMeasurement" style="display: block; margin-bottom: 5px;">Unit of Measurement</label>
+                <input type="text" name="unit_of_measurement"
+                       placeholder="Unit of measurement"
+                       value="{{ request.form['unit_of_measurement'] or item['UnitOfMeasurement'] }}"
+                       style="padding: 8px; width: 100%; margin-bottom: 10px;">
+                
+                <label for="Quantity" style="display: block; margin-bottom: 5px;">Quantity</label>
+                <input type="number" name="quantity"
+                       placeholder="Quantity"
+                       value="{{ request.form['quantity'] or item['Quantity'] }}"
+                       style="padding: 8px; width: 100%; margin-bottom: 10px;">
+                
+                <label for="price_without_vat" style="display: block; margin-bottom: 5px;">Price Without VAT</label>
+                <input type="text" name="price_without_vat"
+                       placeholder="PriceWithoutVat"
+                       value="{{ request.form['price_without_vat'] or item['PriceWithoutVAT'] }}"
+                       style="padding: 8px; width: 100%; margin-bottom: 10px;">
+                
+                <label for="Status" style="display: block; margin-bottom: 5px;">Status</label>
+                <input type="text" name="status"
+                       placeholder="Status"
+                       value="{{ request.form['status'] or item['Status'] }}"
+                       style="padding: 8px; width: 100%; margin-bottom: 10px;">
+                
+                <label for="StorageLocation" style="display: block; margin-bottom: 5px;">Storage Location</label>
+                <input type="text" name="storage_location"
+                       placeholder="StorageLocation"
+                       value="{{ request.form['storage_location'] or item['StorageLocation'] }}"
+                       style="padding: 8px; width: 100%; margin-bottom: 10px;">
+                
+                <label for="ContactPerson" style="display: block; margin-bottom: 5px;">Contact Person</label>
+                <input type="text" name="contact_person"
+                       placeholder="ContactPerson"
+                       value="{{ request.form['contact_person'] or item['ContactPerson'] }}"
+                       style="padding: 8px; width: 100%; margin-bottom: 10px;">
+                
+                <label for="PhotoFilePath" style="display: block; margin-bottom: 5px;">Photo File Path</label>
+                <input type="text" name="photo_file_path"
+                       placeholder="Photo file path"
+                       value="{{ request.form['photo_file_path'] or item['PhotoFilePath'] }}"
+                       style="padding: 8px; width: 100%; margin-bottom: 10px;">
+                
+                <div style="text-align: center;">
+                    <button type="submit" style="padding: 10px 20px; background-color: #d64161; color: white; border: none; cursor: pointer; margin-right: 10px;">Order Item</button>
+                    <button type="button" onclick="window.history.back()" style="padding: 10px 20px; background-color: #ccc; color: #333; border: none; cursor: pointer;">Cancel</button>
+                </div>
+            </form>
 
-        <label for="UnitOfMeasurement">Unit of Measurement</label>
-        <br>
-        <input type="text" name="unit_of_measurement"
-               placeholder="Unit of measurement"
-               value="{{ request.form['unit_of_measurement'] or item['UnitOfMeasurement'] }}"></input>
-        <br>
-
-        <label for="Quantity">Quantity</label>
-        <br>
-        <input type="number" name="quantity"
-               placeholder="Quantity"
-               value="{{ request.form['quantity'] or item['Quantity'] }}"></input>
-        <br>
-
-        <label for="price_without_vat">Price Without VAT</label>
-        <br>
-        <input type="text" name="price_without_vat"
-               placeholder="PriceWithoutVat"
-               value="{{ request.form['price_without_vat'] or item['PriceWithoutVAT'] }}"></input>
-        <br>
-
-        <label for="Status">Status</label>
-        <br>
-        <input type="text" name="status"
-               placeholder="Status"
-               value="{{ request.form['status'] or item['Status'] }}"></input>
-        <br>
-
-        <label for="StorageLocation">Storage Location</label>
-        <br>
-        <input type="text" name="storage_location"
-               placeholder="StorageLocation"
-               value="{{ request.form['storage_location'] or item['StorageLocation'] }}"></input>
-        <br>
-
-        <label for="ContactPerson">Contact Person</label>
-        <br>
-        <input type="text" name="contact_person"
-               placeholder="ContactPerson"
-               value="{{ request.form['contact_person'] or item['ContactPerson'] }}"></input>
-        <br>
-
-        <label for="PhotoFilePath">Photo File Path</label>
-        <br>
-        <input type="text" name="photo_file_path"
-               placeholder="Photo file path"
-               value="{{ request.form['photo_file_path'] or item['PhotoFilePath'] }}"></input>
-        <br>
-
-        <button type="submit">Submit</button>
-    </form>
-
-    <!-- Delete Good Form -->
-    <hr>
-    <form action="{{ url_for('routes.items.delete_item', id=item['ItemID']) }}" method="POST">
-        <input type="submit" value="Delete Good" onclick="return confirm('Are you sure you want to delete this good?')">
-    </form>
+            <!-- Delete Good Form -->
+            <form action="{{ url_for('routes.items.delete_item', id=item['ItemID']) }}" method="POST">
+                <div style="text-align: center;">
+                    <input type="submit" value="Delete Item" onclick="return confirm('Are you sure you want to delete this good?')"
+                           style="padding: 10px 20px; background-color: #d64161; color: white; border: none; cursor: pointer;">
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}
