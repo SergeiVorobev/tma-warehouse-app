@@ -2,97 +2,94 @@
 {% block title %}Purchase Requests{% endblock %}
 
 {% block content %}
-    <h1>Purchase Requests</h1>
-     <!-- Sorting JavaScript function -->
+    <h1 style="text-align: center;">Purchase Requests</h1>
     <!-- Filter and Search functionalities -->
-<div>
-    <!-- (*) Implement filtering functionality -->
-    <label for="filter-select">Filter by Status:</label>
-    <select id="filter-select">
-        <option value="">All</option>
-        <option value="New">New</option>
-        <option value="Accepted">Accepted</option>
-        <option value="Rejected">Rejected</option>
-    </select>
-</div>
-    <div>
+    <div style="margin-bottom: 20px;">
+        <!-- (*) Implement filtering functionality -->
+        <label for="filter-select">Filter by Status:</label>
+        <select id="filter-select" style="margin-right: 20px;">
+            <option value="">All</option>
+            <option value="New">New</option>
+            <option value="Accepted">Accepted</option>
+            <option value="Rejected">Rejected</option>
+        </select>
+        
         <!-- (**) Implement search functionality -->
-        <label for="search-input">Search by Request ID:</label>
-        <input type="text" id="search-input" onkeyup="searchFunction()" placeholder="Search...">
+        <label for="search-input" style="margin-left: 20px;">Search by Request ID:</label>
+        <input type="text" id="search-input" onkeyup="searchFunction()" placeholder="Search..." style="margin-right: 20px;">
     </div>
+
     <!-- Table with sorting, filtering, and search functionalities -->
-    <table id="purchase-requests-table">
+    <table id="purchase-requests-table" style="border-collapse: collapse; width: 100%;">
         <thead>
-            <tr>
-                <th onclick="sortTable(0)">Request ID</th>
-                <th onclick="sortTable(1)">Employee Name</th>
-                <th onclick="sortTable(2)">Item ID</th>
-                <th onclick="sortTable(3)">Unit of Measurement</th>
-                <th onclick="sortTable(4)">Quantity</th>
-                <th onclick="sortTable(5)">Price Without VAT</th>
-                <th onclick="sortTable(6)">Comment</th>
-                <th onclick="sortTable(7)">Status</th>
+            <tr style="text-align: center;">
+                <th onclick="sortTable(0)" style="border: 1px solid black;">Request ID</th>
+                <th onclick="sortTable(1)" style="border: 1px solid black;">Employee Name</th>
+                <th onclick="sortTable(2)" style="border: 1px solid black;">Item ID</th>
+                <th onclick="sortTable(3)" style="border: 1px solid black;">Unit of Measurement</th>
+                <th onclick="sortTable(4)" style="border: 1px solid black;">Quantity</th>
+                <th onclick="sortTable(5)" style="border: 1px solid black;">Price Without VAT</th>
+                <th onclick="sortTable(6)" style="border: 1px solid black;">Comment</th>
+                <th onclick="sortTable(7)" style="border: 1px solid black;">Status</th>
+                <th style="border: 1px solid black;">Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for request in requests %}
-            <tr>
-                <td>{{ request['RequestID'] }}</td>
-                <td>{{ request['EmployeeName'] }}</td>
-                <td>{{ request['ItemID'] }}</td>
-                <td>{{ request['UnitOfMeasurement'] }}</td>
-                <td>{{ request['Quantity'] }}</td>
-                <td>{{ request['PriceWithoutVAT'] }}</td>
-                <td>{{ request['Comment'] }}</td>
-                <td>{{ request['Status'] }}</td>
-                <td>
-                    <a href="{{ url_for('routes.requests.view_purchase_request', request_id=request['RequestID']) }}">Open</a>
-                </td>
-            </tr>
+                <tr style="text-align: center;">
+                    <td style="border: 1px solid black;">{{ request['RequestID'] }}</td>
+                    <td style="border: 1px solid black;">{{ request['EmployeeName'] }}</td>
+                    <td style="border: 1px solid black;">{{ request['ItemID'] }}</td>
+                    <td style="border: 1px solid black;">{{ request['UnitOfMeasurement'] }}</td>
+                    <td style="border: 1px solid black;">{{ request['Quantity'] }}</td>
+                    <td style="border: 1px solid black;">{{ request['PriceWithoutVAT'] }}</td>
+                    <td style="border: 1px solid black;">{{ request['Comment'] }}</td>
+                    <td style="border: 1px solid black;">{{ request['Status'] }}</td>
+                    <td style="border: 1px solid black;">
+                        <a href="{{ url_for('routes.requests.view_purchase_request', request_id=request['RequestID']) }}">Open</a>
+                    </td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
 
-<script>
-    // Filtering functionality
-    document.getElementById("filter-select").addEventListener("change", function() {
-        var filterValue = this.value.toLowerCase();
-        var table = document.getElementById("purchase-requests-table");
-        var rows = table.getElementsByTagName("tr");
-        for (var i = 0; i < rows.length; i++) {
-            var statusCell = rows[i].getElementsByTagName("td")[7];
-            if (statusCell) {
-                var status = statusCell.textContent || statusCell.innerText;
-                if (filterValue === '' || status.toLowerCase() === filterValue) {
-                    rows[i].style.display = "";
-                } else {
-                    rows[i].style.display = "none";
+    <script>
+        // Filtering functionality
+        document.getElementById("filter-select").addEventListener("change", function() {
+            var filterValue = this.value.toLowerCase();
+            var table = document.getElementById("purchase-requests-table");
+            var rows = table.getElementsByTagName("tr");
+            for (var i = 0; i < rows.length; i++) {
+                var statusCell = rows[i].getElementsByTagName("td")[7];
+                if (statusCell) {
+                    var status = statusCell.textContent || statusCell.innerText;
+                    if (filterValue === '' || status.toLowerCase() === filterValue) {
+                        rows[i].style.display = "";
+                    } else {
+                        rows[i].style.display = "none";
+                    }
+                }
+            }
+        });
+
+        // Search functionality
+        function searchFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("search-input");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("purchase-requests-table");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
                 }
             }
         }
-    });
-
-    // Search functionality
-    function searchFunction() {
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("search-input");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("purchase-requests-table");
-        tr = table.getElementsByTagName("tr");
-        for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0];
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-        }
-    }
-</script>
-
-
-
+    </script>
 {% endblock %}
