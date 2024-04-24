@@ -92,4 +92,46 @@
             }
         }
     </script>
+<script>
+    // Filtering functionality
+    document.getElementById("filter-select").addEventListener("change", function() {
+        var filterValue = this.value.toLowerCase();
+        var table = document.getElementById("purchase-requests-table");
+        var rows = table.getElementsByTagName("tr");
+        for (var i = 0; i < rows.length; i++) {
+            var statusCell = rows[i].getElementsByTagName("td")[7];
+            if (statusCell) {
+                var status = statusCell.textContent || statusCell.innerText;
+                if (filterValue === '' || status.toLowerCase() === filterValue) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+    });
+t
+    // Search functionality
+    function searchFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("search-input");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("purchase-requests-table");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+
+
 {% endblock %}
