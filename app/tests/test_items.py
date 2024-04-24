@@ -1,10 +1,17 @@
+import os
+import sys
 import unittest
-from app import create_app
+
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.append(root_dir)
+
+from app import app
 from app.utils import get_db_connection
+
 
 class TestItemsRoutes(unittest.TestCase):
     def setUp(self):
-        self.app = create_app()
+        self.app = app
         self.client = self.app.test_client()
         self.app_context = self.app.app_context()
         self.app_context.push()
@@ -51,4 +58,7 @@ class TestItemsRoutes(unittest.TestCase):
         item_id = 1  # Assuming the ID of the item to be deleted is 1
         response = self.client.post(f'/items/delete/{item_id}/', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        # Add assertions to check if the item is deleted from the database correctly
+
+
+if __name__ == "__main__":
+    unittest.main()
