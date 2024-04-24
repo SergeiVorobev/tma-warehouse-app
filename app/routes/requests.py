@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, url_for, flash, redirect, abort, session, current_app
+from flask import Blueprint, render_template, request, url_for, flash, redirect
 import random
 
 from app.utils import get_db_connection
@@ -140,9 +140,7 @@ def confirm_purchase_request(request_id):
         conn.execute('UPDATE Items SET Quantity = ? WHERE ItemID = ?', (updated_quantity, item_id))
         conn.commit()
     conn.close()
-
-    # Perform any additional logic here
-
+    
     flash('Purchase request confirmed successfully', 'success')
     return redirect(url_for('routes.requests.list_orders'))
 

@@ -54,6 +54,10 @@ pip install -r requirements.txt
 7. Start the application:
 python run.py
 
+alternatively yiu can run it with 
+```
+python -m flask run --port 5000 --debug
+```
 
 8. Access the application in your web browser:
 http://localhost:5000
