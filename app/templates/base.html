@@ -7,13 +7,25 @@
         .post {
             padding: 10px;
             margin: 5px;
-            background-color: #f3f3f3
+            background-color: #f3f3f3;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .logo {
+            font-size: 2em;
+            color: #d64161; /* TMA logo color */
+            margin-right: 20px;
         }
 
         nav a {
-            color: #d64161;
-            font-size: 3em;
-            margin-left: 50px;
+            color: #404040; /* Navigation button color */
+            font-size: 1.5em;
             text-decoration: none;
         }
 
@@ -27,10 +39,10 @@
 </head>
 <body>
     <nav>
-        <span>TMA</span>
+        <span class="logo">TMA</span>
         <a href="{{ url_for('routes.items.list_items') }}">Items</a>
         <a href="{{ url_for('routes.requests.list_orders') }}">Orders</a>
-        <a href="#">About</a>
+        <a href="{{ url_for('routes.general_bp.about') }}">About</a>
     </nav>
     <hr>
     <div class="content">
