@@ -3,67 +3,72 @@
 {% block title %}Purchase Request Details{% endblock %}
 
 {% block content %}
-<h1>Purchase Request Details</h1>
+    <div style="display: flex; justify-content: center;">
+        <div style="width: 80%;">
+            <h1 style="text-align: center;">Purchase Request Details</h1>
 
-<table>
-    <tr>
-        <th>Request ID</th>
-        <th>Employee Name</th>
-        <th>Item ID</th>
-        <th>Unit of Measurement</th>
-        <th>Quantity</th>
-        <th>Price Without VAT</th>
-        <th>Comment</th>
-        <th>Status</th>
-    </tr>
-    <tr>
-        <td>{{ request_info['RequestID'] }}</td>
-        <td>{{ request_info['EmployeeName'] }}</td>
-        <td>{{ request_info['ItemID'] }}</td>
-        <td>{{ request_info['UnitOfMeasurement'] }}</td>
-        <td>{{ request_info['Quantity'] }}</td>
-        <td>{{ request_info['PriceWithoutVAT'] }}</td>
-        <td>{{ request_info['Comment'] }}</td>
-        <td>{{ request_info['Status'] }}</td>
-    </tr>
-</table>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <tr style="text-align: center;">
+                    <th style="border: 1px solid black;">Request ID</th>
+                    <th style="border: 1px solid black;">Employee Name</th>
+                    <th style="border: 1px solid black;">Item ID</th>
+                    <th style="border: 1px solid black;">Unit of Measurement</th>
+                    <th style="border: 1px solid black;">Quantity</th>
+                    <th style="border: 1px solid black;">Price Without VAT</th>
+                    <th style="border: 1px solid black;">Comment</th>
+                    <th style="border: 1px solid black;">Status</th>
+                </tr>
+                <tr style="text-align: center;">
+                    <td style="border: 1px solid black;">{{ request_info['RequestID'] }}</td>
+                    <td style="border: 1px solid black;">{{ request_info['EmployeeName'] }}</td>
+                    <td style="border: 1px solid black;">{{ request_info['ItemID'] }}</td>
+                    <td style="border: 1px solid black;">{{ request_info['UnitOfMeasurement'] }}</td>
+                    <td style="border: 1px solid black;">{{ request_info['Quantity'] }}</td>
+                    <td style="border: 1px solid black;">{{ request_info['PriceWithoutVAT'] }}</td>
+                    <td style="border: 1px solid black;">{{ request_info['Comment'] }}</td>
+                    <td style="border: 1px solid black;">{{ request_info['Status'] }}</td>
+                </tr>
+            </table>
 
+            {% if request_info['Status'] == 'New' %}
+                <form method="post" action="{{ url_for('routes.requests.confirm_purchase_request', request_id=request_info['RequestID']) }}">
+                    <div style="text-align: center; margin-bottom: 10px;">
+                        <button type="submit" style="padding: 10px 20px; background-color: #d64161; color: white; border: none; cursor: pointer; margin-right: 10px;">Confirm Request</button>
+                    </div>
+                </form>
 
-{% if request_info['Status'] != 'Accepted' %}
-<form method="post" action="{{ url_for('routes.requests.confirm_purchase_request', request_id=request_info['RequestID']) }}">
-    <button type="submit">Confirm Request</button>
-</form>
+                <form method="post" action="{{ url_for('routes.requests.reject_purchase_request', request_id=request_info['RequestID']) }}">
+                    <div style="text-align: center; margin-bottom: 10px;">
+                        <label for="reject-comment" style="margin-right: 10px;">Reject Request with Comment:</label>
+                        <input type="text" id="reject-comment" name="comment" style="padding: 8px; margin-right: 10px;">
+                        <button type="submit" style="padding: 10px 20px; background-color: #d64161; color: white; border: none; cursor: pointer;">Reject Request</button>
+                    </div>
+                </form>
+            {% endif %}
 
-<form method="post" action="{{ url_for('routes.requests.reject_purchase_request', request_id=request_info['RequestID']) }}">
-    <label for="reject-comment">Reject Request with Comment:</label>
-    <input type="text" id="reject-comment" name="comment">
-    <button type="submit">Reject Request</button>
-</form>
-{% endif %}
-
-<h2>Items in Stock</h2>
-{% if items %}
-<table id="items-table">
-    <tr>
-        <th>Item ID</th>
-        <th>Unit of Measurement</th>
-        <th>Quantity</th>
-        <th>Price Without VAT</th>
-        <th>Comment</th>
-    </tr>
-    {% for item in items %}
-    <tr>
-        <td>{{ item['ItemID'] }}</td>
-        <td>{{ item['UnitOfMeasurement'] }}</td>
-        <td>{{ item['Quantity'] }}</td>
-        <td>{{ item['PriceWithoutVAT'] }}</td>
-        <td>{{ item['Comment'] }}</td>
-    </tr>
-    {% endfor %}
-</table>
-
-{% else %}
-<p>No items in this Stock.</p>
-{% endif %}
-
+            <h2 style="text-align: center; margin-top: 20px;">Items in Stock</h2>
+            {% if items %}
+                <table id="items-table" style="border-collapse: collapse; width: 100%;">
+                    <tr style="text-align: center;">
+                        <th style="border: 1px solid black;">Item ID</th>
+                        <th style="border: 1px solid black;">Unit of Measurement</th>
+                        <th style="border: 1px solid black;">Quantity</th>
+                        <th style="border: 1px solid black;">Price Without VAT</th>
+                        <th style="border: 1px solid black;">Comment</th>
+                    </tr>
+                    {% for item in items %}
+                        <tr style="text-align: center;">
+                            <td style="border: 1px solid black;">{{ item['ItemID'] }}</td>
+                            <td style="border: 1px solid black;">{{ item['UnitOfMeasurement'] }}</td>
+                            <td style="border: 1px solid black;">{{ item['Quantity'] }}</td>
+                            <td style="border: 1px solid black;">{{ item['PriceWithoutVAT'] }}</td>
+                            <td style="border: 1px solid black;">{{ item['Comment'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p style="text-align: center;">No items in this Stock.</p>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
