@@ -21,7 +21,7 @@ Setup
 To set up the TMA Warehouse app locally, follow these steps:
 
 1. Clone the repository:
-git clone <repository_url>
+git clone git@github.com:SergeiVorobev/tma-warehouse-app.git
 
 
 2. Set up a virtual environment (optional but recommended):
@@ -43,7 +43,7 @@ pip install -r requirements.txt
 
 
 5. Configure database connection:
-- Update the database connection parameters in the `.env` file.
+- Update the database connection parameters and Add SECRET_KEY value for Flask secret key  in the `.env` file.
 
 6. Initialize the database schema:
 - Run the initialization script to create the necessary tables and relationships:

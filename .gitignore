@@ -1,7 +1,7 @@
 .vscode/
 .tma_server.session.sql
 venv/
-config.py
 __pycache__/
 app/__pycache__/
 app/routes/__pycache__/
+.env
